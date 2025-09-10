@@ -1,0 +1,96 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Center the calculator */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+}
+
+/* Calculator container */
+.calculator {
+  background: #2c2c38;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  width: 320px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* Display spans full width */
+#display {
+  grid-column: span 4;
+  height: 70px;
+  font-size: 3rem;
+  text-align: right;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  background: #010169;
+  color: #fff;
+  box-shadow: inset 0 4px 6px rgba(34, 19, 19, 0.5);
+}
+
+/* General button styles */
+.calculator button {
+  height: 60px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.3s;
+  background: #414157;
+  color: #fff;
+}
+
+/* Hover effect */
+.calculator button:hover {
+  transform: scale(1.05);
+  background: #4a4a63;
+}
+
+/* Operator buttons (+, -, *, /) */
+#btnPlus,
+#btnMinus,
+#btnMultiply,
+#btnDivide {
+  background: #ff8c42;
+}
+
+#btnPlus:hover,
+#btnMinus:hover,
+#btnMultiply:hover,
+#btnDivide:hover {
+  background: #ff6a00;
+}
+
+/* Special buttons (Clear, Equals) */
+#btnClear {
+  background: #e94560;
+}
+
+#btnClear:hover {
+  background: #d63050;
+}
+
+#btnEquals {
+  background: #00c897;
+  grid-column: span 4; 
+}
+
+#btnEquals:hover {
+  background: #00a676;
+  transform: scale(1.05);
+  
+}
