@@ -1,57 +1,72 @@
-const display = document.getElementById('display');
-const buttons = document.querySelectorAll('button');
-const clearprevious = document.getElementById('btnpreviousClear')
+// Get references to DOM elements
+const display = document.getElementById('display')
+const buttons = document.querySelectorAll('button')
+const operators = ['+', '-', '*', '/']
 
-let firstNum = 0
+let firstNum = ''
 let operator = ''
-let secondNum = 0
+let secondNum = ''
 
 buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        const value = button.textContent.trim()
+  button.addEventListener('click', () => {
+    const value = button.textContent.trim();
 
-        if (button.id === 'btnEquals' || button.id === 'btnpreviousClear') {
-            return; // Skip processing for '=' and 'AC' buttons here
-        }
-        if (value === 'Clear') {
-            display.value = ''
-        } else {
-            display.value += value
-        }
-    });
-});
+    // skip special buttons handled separately
+    if (button.id === 'btnEquals' || button.id === 'clearprevious') 
+        return
 
-
-clearprevious.addEventListener('click', () => {
-    if (display.value.length > 0) {
-        display.value = display.value.slice(0, -1);
+    if (value === 'Clear') {
+      display.value = ''
+      firstNum = ''
+      operator = ''
+      secondNum = ''
+      return
     }
+
+    // If user presses an operator
+    if (operators.includes(value)) {
+      if (firstNum && operator && secondNum) {
+        // evaluate current pair before applying new operator
+        const result = operate(parseFloat(firstNum), operator, parseFloat(secondNum));
+        display.value = result;
+        firstNum = result.toString();
+        secondNum = '';
+      } else {
+        firstNum = display.value // save current number
+      }
+      operator = value // store operator
+      display.value += value
+      return
+    }
+
+    // If it's a number
+    display.value += value
+
+    // if operator already chosen, we are building secondNum
+    if (operator) {
+      const parts = display.value.split(operator)
+      secondNum = parts[1]; // text after operator
+    }
+  });
 });
 
-
+// arethmetic operations function 
 function add(a,b){
     return a + b
 }
-console.log(add(5,5))
 
 function subtract(a,b){
     return a-b;
 }
-console.log(subtract(10,5))
-
-
 function multiply(a,b){
     return a*b
 }
-console.log(multiply(5,5))
-
-
 function devide(a,b){
     return a/b
 }
-console.log(devide(30,2))
 
 
+// operator function to get results of an expression 
 function operate(a,operator,b){
     if (operator === "+"){
         return add(a,b)
@@ -66,20 +81,43 @@ function operate(a,operator,b){
     }
 }
 
+
+// Equals button
+const resultBtn = document.getElementById('btnEquals');
+resultBtn.addEventListener('click', () => {
+  if (firstNum && operator && secondNum) {
+    const result = operate(parseFloat(firstNum), operator, parseFloat(secondNum))
+    display.value = result;
+    firstNum = result.toString()
+    operator = '';
+    secondNum = '';
+  }
+})
+
+//function to get results when the "=" button is clicked
 const result = document.getElementById('btnEquals')
 result.addEventListener('click', () => {
-     const mathExpression = display.value;
+     const mathExpression = display.value
 
     // Match: number operator number
-    const match = mathExpression.match(/(\d+)([+\-*/])(\d+)/);
+    const match = mathExpression.match(/(\d+)([+\-*/])(\d+)/)
 
     if (match) {
-        firstNum = parseFloat(match[1]);
+        firstNum = parseFloat(match[1])
         operator = match[2];
-        secondNum = parseFloat(match[3]);
+        secondNum = parseFloat(match[3])
 
-        display.value = operate(firstNum, operator, secondNum);
+        display.value = operate(firstNum, operator, secondNum)  
     } else {
-        display.value = "Error";
+        display.value = "Error"
     }
 });
+
+
+
+
+
+
+
+
+
